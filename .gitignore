@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Next.js demo app (ignore build artifacts; mini-sfa-demo/.gitignore also applies)
+mini-sfa-demo/node_modules/
+mini-sfa-demo/.next/
+mini-sfa-demo/out/
+mini-sfa-demo/.vercel/
+mini-sfa-demo/.env*
+mini-sfa-demo/*.tsbuildinfo
+mini-sfa-demo/next-env.d.ts
