@@ -7,13 +7,89 @@ export const DEMO_BADGES = [
 ] as const;
 
 export const DEMO_INTRO =
-  "相談から受任までの進み具合を、架空データで体験できるデモです。新規相談の追加、次アクション更新、ステージ変更をお試しください。";
+  "相談受付から受任判断までの流れを、架空データで短時間に体験できるデモです。優先案件の確認、次アクション更新、ステージ変更を中心に便利さが伝わる構成にしています。";
 
 export const DEMO_RESET_HINT =
-  "操作内容はブラウザ内に保存されます。商談の前後で「初期状態に戻す」を押すと、同じ流れから再開できます。";
+  "操作内容はブラウザ内に保存されます。商談の前後で「初期状態に戻す」を押すと、毎回同じ導線から案内できます。";
+
+export const MOBILE_NAV_NOTE =
+  "スマホは上部ナビから主要5ページへ移動し、確認中心で必要時だけ詳細を開く構成です。";
+
+export const HOME_STRUCTURE_NOTE =
+  "ホームは『今日の優先3件』と『主要導線』をまとめ、下層ページへ迷わず移動できる入口にしています。";
+
+export const DASHBOARD_PRIORITY_LABELS = {
+  high: "高優先",
+  medium: "中優先",
+  low: "低優先",
+} as const;
+
+export const DASHBOARD_COPY = {
+  title: "ダッシュボード（確認と次アクション）",
+  subtitle:
+    "相談・受任・期日・要返信の状況を3カラムで整理し、次に押す導線を明確化しています。",
+  layoutPrimaryLabel: "3カラム基準",
+  layoutComparisonLabel: "4カラム比較",
+  comparisonDescription:
+    "比較表示では右側の導線を分割し、入口の見やすさを確認できます（デフォルトは3カラム）。",
+  sections: {
+    high: {
+      title: "高優先（期日・要返信）",
+      subtitle: "今日の判断が必要な案件を先に確認します。",
+    },
+    medium: {
+      title: "中優先（進行状況）",
+      subtitle: "受任判断に向けた進行中の案件を整理します。",
+    },
+    low: {
+      title: "低〜中優先（入口導線）",
+      subtitle: "一覧ページへ1クリックで遷移できます。",
+    },
+  },
+} as const;
+
+export const TASK_TAB_NOTE =
+  "実務タブでは、要返信・期限確認・次アクション更新が必要な案件をまとめて確認できます。";
+
+export const DOCUMENT_TAB_NOTE =
+  "書類タブでは、委任契約案・見積・資料確認など、書類起点の進捗確認をまとめて扱います。";
 
 export const DEMO_MODE_NOTE =
   "LINE連携、フォーム起票、AI要約、顧客DB連携などは今回の本実装対象ではなく、将来拡張のイメージ表示です。";
+
+export const DEMO_FIXED_ANNOTATION =
+  "この画面は商談用デモです。表示データは架空で、外部連携とAI機能の一部は将来拡張のイメージ表示です。";
+
+export const DEMO_LIMITATION_NOTE =
+  "制限事項: 実データ連携・厳密な権限制御・監査ログは未実装です。";
+
+export const DEMO_60SEC_FLOW = {
+  title: "60秒デモ手順（見る順番）",
+  steps: [
+    "1. ホームで今日の優先案件を確認",
+    "2. 案件一覧で進行中の相談を開く",
+    "3. 詳細で次アクション更新とステージ変更を確認",
+  ],
+} as const;
+
+export const DEMO_UI_STATE_COPY = {
+  initializing: {
+    title: "デモを初期化しています",
+    description: "商談で同じ導線を再現できるよう、初期表示を準備しています。",
+  },
+  loading: {
+    title: "画面を読み込んでいます",
+    description: "相談データと優先表示を整えています。数秒で表示されます。",
+  },
+  empty: {
+    title: "表示できるデータがありません",
+    description: "「新規相談を追加」からデモ導線を開始できます。",
+  },
+  error: {
+    title: "表示エラーが発生しました",
+    description: "再試行で復帰できます。復帰しない場合は初期状態に戻してください。",
+  },
+} as const;
 
 export const MINI_SFA_INTEGRATION_PREVIEW_ITEMS: IntegrationPreviewItem[] = [
   {
@@ -21,28 +97,28 @@ export const MINI_SFA_INTEGRATION_PREVIEW_ITEMS: IntegrationPreviewItem[] = [
     label: "LINE相談取込",
     statusLabel: "連携イメージ",
     description:
-      "LINE公式アカウントから相談内容を受け取り、相談受付として自動起票する拡張を想定しています。",
+      "LINE公式アカウントから相談内容を取り込み、受付案件として自動起票する見せ方です。",
   },
   {
     id: "web-form",
     label: "問い合わせフォーム自動起票",
     statusLabel: "対応可能",
     description:
-      "既存Webフォームから顧客名、流入経路、相談概要を取り込み、初期ステージで登録する想定です。",
+      "既存 Web フォームの内容を案件化し、顧客名や相談概要を初期登録する想定です。",
   },
   {
     id: "ai-summary",
     label: "AI相談要約",
     statusLabel: "オプション想定",
     description:
-      "面談メモや問い合わせ文から相談概要と次アクション候補を整える拡張を将来追加できます。",
+      "面談メモや問い合わせ文から要点と次アクション候補を整え、入力負荷を下げる想定です。",
   },
   {
     id: "crm-sync",
     label: "顧客DB連携",
     statusLabel: "将来拡張",
     description:
-      "既存の顧客管理や案件台帳と同期し、重複登録の抑制や参照だけ先に行う構成も検討できます。",
+      "既存の顧客管理や案件台帳と同期し、重複登録の抑制や先行参照を行う構成を想定しています。",
   },
 ];
 

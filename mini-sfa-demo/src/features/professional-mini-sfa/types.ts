@@ -1,4 +1,5 @@
-export type TabId = "dashboard" | "board" | "contacts";
+export type TabId = "dashboard" | "board" | "contacts" | "tasks" | "documents";
+export type MiniSfaUiState = "initializing" | "loading" | "ready" | "empty" | "error";
 
 export type DealStageId =
   | "intake"
@@ -28,6 +29,9 @@ export interface DealCard {
   conflictCheckStatus?: ConflictCheckStatus;
   summary: string;
   note?: string;
+  taskDone?: boolean;
+  activityHistory?: string[];
+  relatedDocuments?: string[];
 }
 
 export interface ContactRow {
@@ -80,4 +84,10 @@ export interface IntegrationPreviewItem {
   label: string;
   statusLabel: string;
   description: string;
+}
+
+export interface MiniSfaViewState {
+  status: MiniSfaUiState;
+  title?: string;
+  description?: string;
 }

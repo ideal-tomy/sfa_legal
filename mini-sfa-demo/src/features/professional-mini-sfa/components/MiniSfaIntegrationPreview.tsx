@@ -4,28 +4,31 @@ import type { IntegrationPreviewItem } from "../types";
 
 interface MiniSfaIntegrationPreviewProps {
   items: IntegrationPreviewItem[];
+  note?: string;
 }
 
 export function MiniSfaIntegrationPreview({
   items,
+  note,
 }: MiniSfaIntegrationPreviewProps) {
   return (
-    <section className="space-y-4 rounded-2xl border border-slate-700 bg-slate-900/60 p-4 md:p-6">
+    <section className="space-y-4 rounded-[24px] border border-slate-800 bg-slate-900/60 p-4 md:p-6">
       <div>
-        <h2 className="text-xl font-semibold text-white">将来連携のイメージ</h2>
+        <h2 className="text-xl font-semibold text-white">連携・AI の見せ方</h2>
         <p className="mt-2 text-sm text-slate-400">
-          以下は今回の実装範囲ではなく、将来拡張の見せ方として表示しています。
+          実連携ではなく演出表示ですが、本番ではこの部分をフォーム、LINE、AI、顧客DB へ差し替える想定です。
         </p>
+        {note ? <p className="mt-2 text-xs text-amber-200/90">{note}</p> : null}
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {items.map((item) => (
           <article
             key={item.id}
             className="rounded-2xl border border-slate-700 bg-slate-950/70 p-4"
           >
             <div className="flex items-start justify-between gap-3">
-              <h3 className="text-base font-medium text-white">{item.label}</h3>
+              <h3 className="text-sm font-medium text-white">{item.label}</h3>
               <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-1 text-[11px] font-medium text-cyan-300">
                 {item.statusLabel}
               </span>

@@ -47,6 +47,8 @@ export interface UseProfessionalMiniSfaDemoResult {
   setMobileWeekFollowOpen: (open: boolean) => void;
   createDialogOpen: boolean;
   setCreateDialogOpen: (open: boolean) => void;
+  isInitializing: boolean;
+  isLoading: boolean;
 }
 
 export function useProfessionalMiniSfaDemo(): UseProfessionalMiniSfaDemoResult {
@@ -61,6 +63,17 @@ export function useProfessionalMiniSfaDemo(): UseProfessionalMiniSfaDemoResult {
   const [mobileDealDetailOpen, setMobileDealDetailOpen] = useState(false);
   const [mobileWeekFollowOpen, setMobileWeekFollowOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const initTimer = window.setTimeout(() => setIsInitializing(false), 350);
+    const loadTimer = window.setTimeout(() => setIsLoading(false), 900);
+    return () => {
+      window.clearTimeout(initTimer);
+      window.clearTimeout(loadTimer);
+    };
+  }, []);
 
   useEffect(() => {
     writeMiniSfaDeals(deals);
@@ -136,6 +149,10 @@ export function useProfessionalMiniSfaDemo(): UseProfessionalMiniSfaDemoResult {
     setMobileDealDetailOpen(false);
     setMobileWeekFollowOpen(false);
     setCreateDialogOpen(false);
+    setIsInitializing(true);
+    setIsLoading(true);
+    window.setTimeout(() => setIsInitializing(false), 300);
+    window.setTimeout(() => setIsLoading(false), 850);
   };
 
   return {
@@ -159,5 +176,7 @@ export function useProfessionalMiniSfaDemo(): UseProfessionalMiniSfaDemoResult {
     setMobileWeekFollowOpen,
     createDialogOpen,
     setCreateDialogOpen,
+    isInitializing,
+    isLoading,
   };
 }
