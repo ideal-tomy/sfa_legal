@@ -5,6 +5,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Vercel post-build がリポジトリ直下に張る .next シンボリックリンク（ローカル検証用）
+/.next/
+
 # Next.js demo app (ignore build artifacts; mini-sfa-demo/.gitignore also applies)
 mini-sfa-demo/node_modules/
 mini-sfa-demo/.next/
