@@ -3,8 +3,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { DEAL_STAGE_LABEL, DEMO_TODAY, TAB_LABEL } from "./constants";
 import {
+  DISCLAIMER_LINES,
   DEMO_BADGES,
-  DEMO_60SEC_FLOW,
   DEMO_FIXED_ANNOTATION,
   DEMO_INTRO,
   DEMO_LIMITATION_NOTE,
@@ -12,7 +12,6 @@ import {
   DEMO_RESET_HINT,
   DEMO_UI_STATE_COPY,
   DOCUMENT_TAB_NOTE,
-  DISCLAIMER_LINES,
   ESTIMATE_RANGE_LABEL,
   HOME_STRUCTURE_NOTE,
   INCLUDES,
@@ -34,7 +33,7 @@ import { MiniSfaContactsTab } from "./components/MiniSfaContactsTab";
 import { MiniSfaCreateDealPanel } from "./components/MiniSfaCreateDealPanel";
 import { MiniSfaDashboardTab } from "./components/MiniSfaDashboardTab";
 import { MiniSfaDealDetail } from "./components/MiniSfaDealDetail";
-import { MiniSfaIntegrationPreview } from "./components/MiniSfaIntegrationPreview";
+import { MiniSfaReferenceTab } from "./components/MiniSfaReferenceTab";
 import { MiniSfaStatePanel } from "./components/MiniSfaStatePanel";
 import { MiniSfaUnifiedList } from "./components/MiniSfaUnifiedList";
 import { useProfessionalMiniSfaDemo } from "./useProfessionalMiniSfaDemo";
@@ -81,6 +80,15 @@ function DocumentsIcon() {
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M7 3h7l5 5v13H7z" />
       <path d="M14 3v5h5M10 13h6M10 17h6" />
+    </svg>
+  );
+}
+
+function ReferenceIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M12 3 4 7v10l8 4 8-4V7l-8-4Z" />
+      <path d="M12 3v18M4 7l8 4 8-4" />
     </svg>
   );
 }
@@ -289,6 +297,7 @@ export function ProfessionalMiniSfaDemo() {
     contacts: `顧客・案件 ${contacts.length}件`,
     tasks: `要確認 ${taskDeals.length}件`,
     documents: `書類確認 ${documentDeals.length}件`,
+    reference: "連携・概算・注記",
   };
   const baseViewState: MiniSfaViewState = simulateError
     ? { status: "error", ...DEMO_UI_STATE_COPY.error }
@@ -427,28 +436,19 @@ export function ProfessionalMiniSfaDemo() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-4">
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-cyan-200">
-                {DEMO_60SEC_FLOW.title}
-              </p>
-              <ol className="mt-2 space-y-1 text-sm text-cyan-100">
-                {DEMO_60SEC_FLOW.steps.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            </div>
           </div>
         </header>
 
         <div className="sticky top-0 z-30 -mx-4 border-y border-slate-800 bg-slate-950/90 px-4 py-3 backdrop-blur md:-mx-6 md:px-6 lg:-mx-8 lg:px-8">
           <p className="mb-2 text-xs text-slate-500 md:hidden">{MOBILE_NAV_NOTE}</p>
-          <div className="grid grid-cols-5 gap-2 pb-1 md:hidden">
+          <div className="grid grid-cols-3 gap-2 pb-1 md:hidden">
             {[
               { id: "dashboard" as const, icon: <DashboardIcon /> },
               { id: "board" as const, icon: <BoardIcon /> },
               { id: "contacts" as const, icon: <ContactsIcon /> },
               { id: "tasks" as const, icon: <TasksIcon /> },
               { id: "documents" as const, icon: <DocumentsIcon /> },
+              { id: "reference" as const, icon: <ReferenceIcon /> },
             ].map((item) => (
               <button
                 key={item.id}
@@ -500,6 +500,13 @@ export function ProfessionalMiniSfaDemo() {
               icon={<DocumentsIcon />}
               label={TAB_LABEL.documents}
               onClick={() => setActiveTab("documents")}
+            />
+            <TabNavButton
+              active={activeTab === "reference"}
+              countLabel={navCounts.reference}
+              icon={<ReferenceIcon />}
+              label={TAB_LABEL.reference}
+              onClick={() => setActiveTab("reference")}
             />
           </div>
         </div>
@@ -589,6 +596,25 @@ export function ProfessionalMiniSfaDemo() {
                 />
               )
             ) : null}
+
+            {activeTab === "reference" ? (
+              <MiniSfaReferenceTab
+                integrationItems={MINI_SFA_INTEGRATION_PREVIEW_ITEMS}
+                limitationNote={DEMO_LIMITATION_NOTE}
+                demoModeNote={DEMO_MODE_NOTE}
+                mvpOneLiner={MVP_ONE_LINER}
+                mvpScopeBullets={MVP_SCOPE_BULLETS}
+                estimateRangeLabel={ESTIMATE_RANGE_LABEL}
+                securityRangeSubline={SECURITY_RANGE_SUBLINE}
+                onboardingDayRateLabel={ONBOARDING_DAY_RATE_LABEL}
+                includes={INCLUDES}
+                optionSectionTitle={OPTION_SECTION_TITLE}
+                optionFeatureExamples={OPTION_FEATURE_EXAMPLES}
+                optionSectionFootnote={OPTION_SECTION_FOOTNOTE}
+                optionPricingExamples={OPTION_PRICING_EXAMPLES}
+                disclaimerLines={DISCLAIMER_LINES}
+              />
+            ) : null}
           </section>
 
           {activeTab === "dashboard" ? (
@@ -597,107 +623,6 @@ export function ProfessionalMiniSfaDemo() {
             </p>
           ) : null}
 
-          <MiniSfaIntegrationPreview
-            items={MINI_SFA_INTEGRATION_PREVIEW_ITEMS}
-            note={DEMO_LIMITATION_NOTE}
-          />
-
-          <details className="rounded-[24px] border border-slate-800 bg-slate-900/60 p-4 md:p-6">
-            <summary className="cursor-pointer list-none text-sm font-semibold text-slate-100">
-              制作イメージと概算レンジをみる
-            </summary>
-            <div className="mt-5 space-y-5">
-              <p className="text-sm leading-7 text-slate-400">{DEMO_MODE_NOTE}</p>
-
-              <div>
-                <h2 className="text-xl font-semibold text-white">
-                  制作イメージと概算レンジ（例示）
-                </h2>
-                <p className="mt-2 text-sm leading-7 text-slate-300">{MVP_ONE_LINER}</p>
-              </div>
-
-              <div>
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-                  MVP の範囲（目安）
-                </p>
-                <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-slate-300">
-                  {MVP_SCOPE_BULLETS.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 px-4 py-4">
-                <p className="text-base font-semibold text-cyan-300">
-                  概算レンジ: {ESTIMATE_RANGE_LABEL}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-300">{SECURITY_RANGE_SUBLINE}</p>
-                <p className="mt-2 text-sm leading-7 text-slate-400">
-                  {ONBOARDING_DAY_RATE_LABEL}
-                </p>
-              </div>
-
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
-                  <p className="text-sm font-semibold text-emerald-300">含む（例）</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                    {INCLUDES.map((line) => (
-                      <li key={line} className="flex gap-2">
-                        <span className="text-emerald-300">✓</span>
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold text-cyan-300">{OPTION_SECTION_TITLE}</p>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                    {OPTION_FEATURE_EXAMPLES.map((line) => (
-                      <li key={line} className="flex gap-2">
-                        <span className="text-cyan-300">+</span>
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-3 text-sm leading-7 text-slate-400">{OPTION_SECTION_FOOTNOTE}</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold text-slate-400">
-                  オプション費用感（税別・例示）
-                </p>
-                <div className="mt-3 overflow-x-auto rounded-2xl border border-slate-700">
-                  <table className="w-full min-w-[520px] text-left text-sm">
-                    <thead className="border-b border-slate-700 bg-slate-950/80 text-slate-400">
-                      <tr>
-                        <th className="px-3 py-3 font-medium">項目</th>
-                        <th className="px-3 py-3 font-medium">費用感の目安</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {OPTION_PRICING_EXAMPLES.map((row) => (
-                        <tr
-                          key={row.title}
-                          className="border-b border-slate-800 last:border-0"
-                        >
-                          <td className="px-3 py-3 text-slate-100">{row.title}</td>
-                          <td className="px-3 py-3 text-cyan-300">{row.rangeHint}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="space-y-2 border-t border-slate-700 pt-4 text-sm leading-7 text-slate-400">
-                {DISCLAIMER_LINES.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
-            </div>
-          </details>
         </main>
 
         <button

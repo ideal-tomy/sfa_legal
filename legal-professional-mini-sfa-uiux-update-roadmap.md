@@ -428,11 +428,11 @@
 #### B. 移動する要素（別タブ・別ブロックへ）
 
 - 連携プレビュー（`MiniSfaIntegrationPreview`）  
-  - 移動先案: 新規 `リファレンス` タブ、または既存 `documents` 配下の「連携予定」ブロック
+  - 移動先: 新規 `reference` タブの「連携予定」セクション
 - 制作イメージと概算レンジ（`details` 内の長尺コンテンツ）  
-  - 移動先案: `リファレンス` タブへ集約（トップ常設を解除）
+  - 移動先: `reference` タブの「制作計画・費用目安」セクション
 - 補足注記・説明文の長文部分  
-  - 移動先案: 「補足を見る」導線でモーダル/アコーディオン化
+  - 移動先: `reference` タブの「注記・制限事項（初期閉）」セクション
 
 #### C. 折りたたむ要素（初期閉）
 
@@ -533,4 +533,23 @@
 
 まずは変更対象を「残す / 移動 / 折りたたみ」に仕分けし、実装ステップを提示してください。
 ```
+
+### 11-9. 1対1移設マップ（実装確定版）
+
+- `ProfessionalMiniSfaDemo.tsx` のトップ常設 `MiniSfaIntegrationPreview`  
+  → `MiniSfaReferenceTab.tsx` の連携予定セクションへ移設
+- `ProfessionalMiniSfaDemo.tsx` の `details`（制作イメージ・概算レンジ）  
+  → `MiniSfaReferenceTab.tsx` の制作計画・費用目安セクションへ移設
+- `ProfessionalMiniSfaDemo.tsx` の `details` 末尾注記（`DISCLAIMER_LINES`）  
+  → `MiniSfaReferenceTab.tsx` の注記・制限事項（初期閉）へ移設
+- `ProfessionalMiniSfaDemo.tsx` のトップ `DEMO_60SEC_FLOW` 詳細表示  
+  → `MiniSfaDashboardTab.tsx` の補足 `details`（初期閉）へ縮約移設
+
+### 11-10. Week 2 微調整チェックリスト（運用固定）
+
+- [ ] 高優先カードのCTA文言が「最優先案件を開く」に統一されている
+- [ ] 導線ボタン文言が「〜へ進む」で統一されている
+- [ ] ダッシュボードのカード順が 高→中→低 に固定されている
+- [ ] First Action Time / Priority Reach Time を週次で記録している
+- [ ] CTA Visible Rate（PC）と Scroll Debt（PC/スマホ）を記録している
 

@@ -1,8 +1,6 @@
 "use client";
-
-import { useState } from "react";
 import { DEAL_STAGE_LABEL } from "../constants";
-import { DASHBOARD_COPY, DASHBOARD_PRIORITY_LABELS } from "../demo-copy";
+import { DASHBOARD_COPY, DASHBOARD_PRIORITY_LABELS, DEMO_60SEC_FLOW } from "../demo-copy";
 import type { DealCard, MiniSfaDashboardStats, MiniSfaViewState, TabId } from "../types";
 import { MiniSfaStatePanel } from "./MiniSfaStatePanel";
 
@@ -143,7 +141,6 @@ export function MiniSfaDashboardTab({
   const urgentDeal = stats.overdueRows[0] ?? null;
   const weekDeal = stats.weekRows[0] ?? null;
   const priorityDeal = stats.retainerLikelyRows[0] ?? stats.retainedRows[0] ?? null;
-  const [useFourColumns, setUseFourColumns] = useState(false);
 
   if (viewState.status !== "ready") {
     return (
@@ -167,13 +164,6 @@ export function MiniSfaDashboardTab({
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={() => setUseFourColumns((current) => !current)}
-            className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
-          >
-            {useFourColumns ? DASHBOARD_COPY.layoutPrimaryLabel : DASHBOARD_COPY.layoutComparisonLabel}
-          </button>
-          <button
-            type="button"
             onClick={() => onNavigateTab("board")}
             className="rounded-xl border border-slate-700 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
           >
@@ -189,11 +179,7 @@ export function MiniSfaDashboardTab({
         </div>
       </div>
 
-      <p className="rounded-2xl border border-slate-800 bg-slate-950/40 px-4 py-3 text-xs text-slate-400">
-        {DASHBOARD_COPY.comparisonDescription}
-      </p>
-
-      <div className={`grid gap-4 ${useFourColumns ? "xl:grid-cols-4" : "xl:grid-cols-3"}`}>
+      <div className="grid gap-4 xl:grid-cols-3">
         <section className="space-y-3 rounded-[24px] border border-slate-800 bg-slate-950/60 p-4">
           <div>
             <h3 className="text-base font-semibold text-white">{DASHBOARD_COPY.sections.high.title}</h3>
@@ -300,35 +286,25 @@ export function MiniSfaDashboardTab({
           </button>
           <button
             type="button"
-            onClick={() => onNavigateTab("board")}
+            onClick={() => (urgentDeal ? onOpenDeal(urgentDeal.id) : onNavigateTab("board"))}
             className="w-full rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-3 py-3 text-left text-sm text-cyan-100 hover:bg-cyan-400/15"
           >
             <p className="font-semibold">最優先案件へ進む</p>
             <p className="mt-1 text-xs text-cyan-200/80">詳細で次アクション更新に進む</p>
           </button>
         </section>
-
-        {useFourColumns ? (
-          <section className="space-y-3 rounded-[24px] border border-slate-800 bg-slate-950/60 p-4">
-            <div>
-              <h3 className="text-base font-semibold text-white">比較用導線（4カラム）</h3>
-              <p className="mt-1 text-xs text-slate-400">
-                入口導線を分割した比較表示です。必要に応じて3カラムへ戻せます。
-              </p>
-            </div>
-            <div className="rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-3 text-sm text-slate-300">
-              <p>進行中 {stats.activeCount}件</p>
-              <p className="mt-1">受任済み {stats.retainedCount}件</p>
-            </div>
-            <CompactDealList
-              deals={stats.weekRows.slice(0, 3)}
-              label="今週フォロー"
-              emptyLabel="今週フォロー対象はありません"
-              onOpenDeal={onOpenDeal}
-            />
-          </section>
-        ) : null}
       </div>
+
+      <details className="rounded-2xl border border-slate-800 bg-slate-950/40 px-4 py-3">
+        <summary className="cursor-pointer list-none text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+          {DEMO_60SEC_FLOW.title}
+        </summary>
+        <ol className="mt-3 space-y-1 text-sm text-slate-300">
+          {DEMO_60SEC_FLOW.steps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </details>
     </div>
   );
 }

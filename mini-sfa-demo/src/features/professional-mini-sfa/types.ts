@@ -1,4 +1,4 @@
-export type TabId = "dashboard" | "board" | "contacts" | "tasks" | "documents";
+export type TabId = "dashboard" | "board" | "contacts" | "tasks" | "documents" | "reference";
 export type MiniSfaUiState = "initializing" | "loading" | "ready" | "empty" | "error";
 
 export type DealStageId =

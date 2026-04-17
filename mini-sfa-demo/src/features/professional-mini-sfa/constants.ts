@@ -4,7 +4,7 @@ export const DEMO_TODAY = "2026-04-02";
 export const MINI_SFA_STORAGE_KEY = "professional-mini-sfa-demo:v1";
 export const MINI_SFA_STORAGE_VERSION = 1;
 
-export const TAB_ORDER: TabId[] = ["dashboard", "board", "contacts", "tasks", "documents"];
+export const TAB_ORDER: TabId[] = ["dashboard", "board", "contacts", "tasks", "documents", "reference"];
 
 export const TAB_LABEL: Record<TabId, string> = {
   dashboard: "ホーム",
@@ -12,6 +12,7 @@ export const TAB_LABEL: Record<TabId, string> = {
   contacts: "顧客",
   tasks: "実務",
   documents: "書類",
+  reference: "資料",
 };
 
 export const DEAL_STAGE_ORDER: DealStageId[] = [

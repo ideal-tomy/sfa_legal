@@ -13,7 +13,7 @@ export const DEMO_RESET_HINT =
   "操作内容はブラウザ内に保存されます。商談の前後で「初期状態に戻す」を押すと、毎回同じ導線から案内できます。";
 
 export const MOBILE_NAV_NOTE =
-  "スマホは上部ナビから主要5ページへ移動し、確認中心で必要時だけ詳細を開く構成です。";
+  "スマホは上部ナビから主要6ページへ移動し、確認中心で必要時だけ詳細を開く構成です。";
 
 export const HOME_STRUCTURE_NOTE =
   "ホームは『今日の優先3件』と『主要導線』をまとめ、下層ページへ迷わず移動できる入口にしています。";
@@ -46,6 +46,14 @@ export const DASHBOARD_COPY = {
       subtitle: "一覧ページへ1クリックで遷移できます。",
     },
   },
+} as const;
+
+export const REFERENCE_TAB_COPY = {
+  title: "参考情報（連携・概算・注記）",
+  subtitle:
+    "商談補助で使う説明情報をまとめたタブです。トップは判断に集中し、詳細説明はここで確認します。",
+  limitationsTitle: "注記・制限事項",
+  limitationsSummary: "制限事項と免責を確認する",
 } as const;
 
 export const TASK_TAB_NOTE =
