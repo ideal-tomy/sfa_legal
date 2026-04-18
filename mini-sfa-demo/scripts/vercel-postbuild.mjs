@@ -3,9 +3,9 @@
  * `.next/` を参照するケースに合わせる。
  *
  * 1) `.next/routes-manifest-deterministic.json` が無い場合は
- *    `routes-manifest.json` を複製する（Vercel が lstat するファイル用）。
- * 2) 親ディレクトリ（クローンルート）に `.next` が無い、または中身が無い場合は
- *    現在のアプリディレクトリ配下の `.next` へディレクトリシンボリックリンクを張る。
+ *    `routes-manifest.json` を複製する。
+ * 2) `mini-sfa-demo/.next` をリポジトリルートの `.next` へ実体コピーする。
+ *    （シンボリックリンクは post-build の lstat で解決されないことがある）
  *
  * @see https://github.com/vercel/vercel/issues/15937
  */
@@ -37,32 +37,8 @@ if (fs.existsSync(routesManifest) && !fs.existsSync(routesDeterministic)) {
 }
 
 const repoRoot = path.resolve(appRoot, "..");
-const linkPath = path.join(repoRoot, ".next");
-const appDirName = path.basename(appRoot);
-const symlinkTarget = `${appDirName}/.next`;
+const destNext = path.join(repoRoot, ".next");
 
-try {
-  const st = fs.lstatSync(linkPath);
-  if (st.isSymbolicLink()) {
-    fs.unlinkSync(linkPath);
-  } else if (st.isDirectory()) {
-    const hasRoutes = fs.existsSync(
-      path.join(linkPath, "routes-manifest.json")
-    );
-    if (hasRoutes) {
-      console.log(
-        "[vercel-postbuild] 親に実体の .next があるためシンボリックリンクは作成しません:",
-        linkPath
-      );
-      process.exit(0);
-    }
-    fs.rmSync(linkPath, { recursive: true, force: true });
-  } else {
-    fs.rmSync(linkPath, { recursive: true, force: true });
-  }
-} catch {
-  // 存在しない場合は無視
-}
-
-fs.symlinkSync(symlinkTarget, linkPath, "dir");
-console.log("[vercel-postbuild] シンボリックリンクを作成:", linkPath, "->", symlinkTarget);
+fs.rmSync(destNext, { recursive: true, force: true });
+fs.cpSync(nextDir, destNext, { recursive: true });
+console.log("[vercel-postbuild] .next をリポジトリルートへコピーしました:", destNext);
